@@ -1,12 +1,10 @@
 {
-  "name": "@fh-project/fh0-cli",
+  "name": "@fh0-project/fh0-cli",
   "description": "fh0",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "publishConfig": {
-    "access": "public"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "engines": {
     "node": ">= 16.13.0",
@@ -17,7 +15,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fh0-project/fh0-cli.git"
+    "url": "git://github.com/fh0-project/fh0-cli.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
   },
   "keywords": [],
   "author": "Dany Fedorov",
