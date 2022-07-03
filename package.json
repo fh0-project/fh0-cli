@@ -1,24 +1,25 @@
 {
-  "name": "@fh0-project/fh0-cli",
+  "name": "@fh0/cli",
   "description": "fh0",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "engines": {
     "node": ">= 16.13.0",
     "npm": ">= 8.1.0"
   },
   "bin": {
-    "nest": "bin/nest.js"
+    "fh0": "bin/fh0.js"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/fh0-project/fh0-cli.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "access": "public"
   },
   "keywords": [],
   "author": "Dany Fedorov",
@@ -33,9 +34,7 @@
     "ora": "5.4.1",
     "os-name": "4.0.1",
     "rimraf": "3.0.2",
-    "shelljs": "0.8.5",
-    "webpack": "5.73.0",
-    "webpack-node-externals": "3.0.0"
+    "shelljs": "0.8.5"
   },
   "devDependencies": {
     "@commitlint/cli": "17.0.3",
@@ -54,11 +53,17 @@
     "eslint": "8.18.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
-    "husky": "8.0.1",
     "jest": "28.1.1",
-    "lint-staged": "13.0.3",
     "prettier": "2.7.1",
     "ts-node": "10.8.1",
     "typescript": "4.7.4"
+  },
+  "bugs": {
+    "url": "https://github.com/fh0-project/fh0-cli/issues"
+  },
+  "homepage": "https://github.com/fh0-project/fh0-cli#readme",
+  "main": "bin/fh0.js",
+  "directories": {
+    "lib": "lib"
   }
 }
