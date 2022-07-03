@@ -1,5 +1,5 @@
 {
-  "name": "fh0-cli",
+  "name": "@fh-project/fh0-cli",
   "description": "fh0",
   "version": "0.0.0",
   "scripts": {
@@ -14,6 +14,10 @@
   },
   "bin": {
     "nest": "bin/nest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fh0-project/fh0-cli.git"
   },
   "keywords": [],
   "author": "Dany Fedorov",
