@@ -5,11 +5,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "mkexec": "chmod u+x ./bin/fh0.js",
+    "tsc-watch": "tsc-watch --onSuccess 'npm run mkexec'"
   },
   "engines": {
-    "node": ">= 16.13.0",
-    "npm": ">= 8.1.0"
+    "node": ">= 16.15.1",
+    "npm": ">= 8.11.0"
   },
   "bin": {
     "fh0": "bin/fh0.js"
@@ -56,6 +58,7 @@
     "jest": "28.1.1",
     "prettier": "2.7.1",
     "ts-node": "10.8.1",
+    "tsc-watch": "^5.0.3",
     "typescript": "4.7.4"
   },
   "bugs": {

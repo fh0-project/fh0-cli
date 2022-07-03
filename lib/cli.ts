@@ -8,7 +8,7 @@ program
   .command('test1')
   .option('--test1 <testInput>')
   .action(() => {
-    console.log('test1');
+    console.log('test112');
   });
 
 program.on('command:*', () => {
