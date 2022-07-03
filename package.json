@@ -1,0 +1,59 @@
+{
+  "name": "fh0-cli",
+  "description": "fh0",
+  "version": "0.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">= 16.13.0",
+    "npm": ">= 8.1.0"
+  },
+  "bin": {
+    "nest": "bin/nest.js"
+  },
+  "keywords": [],
+  "author": "Dany Fedorov",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "3.0.0",
+    "chokidar": "3.5.3",
+    "cli-table3": "0.6.2",
+    "commander": "4.1.1",
+    "inquirer": "7.3.3",
+    "node-emoji": "1.11.0",
+    "ora": "5.4.1",
+    "os-name": "4.0.1",
+    "rimraf": "3.0.2",
+    "shelljs": "0.8.5",
+    "webpack": "5.73.0",
+    "webpack-node-externals": "3.0.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-angular": "17.0.3",
+    "@tsconfig/node16-strictest": "^1.0.3",
+    "@types/copyfiles": "2.4.1",
+    "@types/inquirer": "8.2.1",
+    "@types/jest": "28.1.3",
+    "@types/node": "16.11.41",
+    "@types/node-emoji": "1.8.1",
+    "@types/rimraf": "3.0.2",
+    "@types/shelljs": "0.8.11",
+    "@types/webpack-node-externals": "2.5.3",
+    "@typescript-eslint/eslint-plugin": "5.29.0",
+    "@typescript-eslint/parser": "5.29.0",
+    "eslint": "8.18.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "husky": "8.0.1",
+    "jest": "28.1.1",
+    "lint-staged": "13.0.3",
+    "prettier": "2.7.1",
+    "ts-node": "10.8.1",
+    "typescript": "4.7.4"
+  }
+}
