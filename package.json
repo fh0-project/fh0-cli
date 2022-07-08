@@ -1,20 +1,20 @@
 {
   "name": "@fh0/cli",
   "description": "fh0",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
+    "build": "webpack",
     "prepare": "npm run build",
-    "mkexec": "chmod u+x ./bin/fh0.js",
-    "tsc-watch": "tsc-watch --onSuccess 'npm run mkexec'"
+    "watch": "chokidar './**/*.ts' -c 'npm run build' -i './node_modules/**/*' --initial"
   },
   "engines": {
     "node": ">= 16.15.1",
     "npm": ">= 8.11.0"
   },
   "bin": {
-    "fh0": "bin/fh0.js"
+    "fh0": "bin/fh0.js",
+    "fh0-plumber": "bin/fh0-plumber.js"
   },
   "repository": {
     "type": "git",
@@ -27,39 +27,40 @@
   "author": "Dany Fedorov",
   "license": "MIT",
   "dependencies": {
-    "chalk": "3.0.0",
-    "chokidar": "3.5.3",
-    "cli-table3": "0.6.2",
-    "commander": "4.1.1",
+    "chalk": "^3.0.0",
+    "cli-table3": "^0.6.2",
+    "commander": "^9.3.0",
     "inquirer": "7.3.3",
-    "node-emoji": "1.11.0",
-    "ora": "5.4.1",
-    "os-name": "4.0.1",
-    "rimraf": "3.0.2",
-    "shelljs": "0.8.5"
+    "jsonrpc-lite": "^2.2.0",
+    "lodash": "^4.17.21",
+    "module-alias": "^2.2.2",
+    "node-emoji": "^1.11.0",
+    "ora": "^5.4.1",
+    "os-name": "^4.0.1",
+    "p-map": "^5.5.0",
+    "rimraf": "^3.0.2",
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.0.3",
-    "@commitlint/config-angular": "17.0.3",
     "@tsconfig/node16-strictest": "^1.0.3",
-    "@types/copyfiles": "2.4.1",
     "@types/inquirer": "8.2.1",
-    "@types/jest": "28.1.3",
-    "@types/node": "16.11.41",
+    "@types/module-alias": "^2.0.1",
     "@types/node-emoji": "1.8.1",
     "@types/rimraf": "3.0.2",
     "@types/shelljs": "0.8.11",
-    "@types/webpack-node-externals": "2.5.3",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "@typescript-eslint/parser": "5.29.0",
+    "chokidar": "^3.5.3",
     "eslint": "8.18.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
     "jest": "28.1.1",
     "prettier": "2.7.1",
+    "ts-loader": "^9.3.1",
     "ts-node": "10.8.1",
-    "tsc-watch": "^5.0.3",
-    "typescript": "4.7.4"
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0"
   },
   "bugs": {
     "url": "https://github.com/fh0-project/fh0-cli/issues"

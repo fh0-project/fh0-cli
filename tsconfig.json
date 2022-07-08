@@ -1,8 +1,26 @@
 {
   "extends": "@tsconfig/node16-strictest/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "ES2022",
+    "paths": {
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@commands/*": [
+        "commands/*"
+      ],
+      "@plumber-commands/*": [
+        "plumber-commands/*"
+      ]
+    }
+  },
   "include": [
     "bin",
-    "lib"
+    "lib",
+    "cli",
+    "commands",
+    "plumber-commands"
   ],
   "exclude": [
     "node_modules",
