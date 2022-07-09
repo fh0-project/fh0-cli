@@ -1,6 +1,6 @@
 import '../lib/init';
 
-import { RequestCommand } from '@plumber-commands/request/command';
+import { RequestCommand } from '@fh0-plumber/RequestCommand';
 import { program } from '@lib/program';
 
 async function main() {

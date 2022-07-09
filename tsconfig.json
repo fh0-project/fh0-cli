@@ -7,20 +7,18 @@
       "@lib/*": [
         "lib/*"
       ],
-      "@commands/*": [
-        "commands/*"
+      "@fh0/*": [
+        "fh0/*"
       ],
-      "@plumber-commands/*": [
-        "plumber-commands/*"
+      "@fh0-plumber/*": [
+        "fh0-plumber/*"
       ]
     }
   },
   "include": [
-    "bin",
     "lib",
-    "cli",
-    "commands",
-    "plumber-commands"
+    "fh0",
+    "fh0-plumber"
   ],
   "exclude": [
     "node_modules",

@@ -5,6 +5,6 @@
 //
 // addAliases({
 //   '@lib': path.join(ROOT, 'lib'),
-//   '@commands': path.join(ROOT, 'commands'),
-//   '@plumber-commands': path.join(ROOT, 'plumber-commands'),
+//   '@fh0': path.join(ROOT, 'commands'),
+//   '@fh0-plumber': path.join(ROOT, 'fh0-plumber'),
 // });

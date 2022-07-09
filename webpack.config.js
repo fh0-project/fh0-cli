@@ -1,11 +1,14 @@
 const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   target: 'node',
-  mode: 'production',
+  externals: [nodeExternals()],
+  // mode: 'production',
+  mode: 'development',
   entry: {
-    fh0: './commands/fh0-cli.ts',
-    'fh0-plumber': './plumber-commands/fh0-plumber-cli.ts',
+    fh0: './fh0/fh0-cli.ts',
+    'fh0-plumber': './fh0-plumber/fh0-plumber-cli.ts',
   },
   module: {
     rules: [
@@ -19,8 +22,8 @@ module.exports = {
   resolve: {
     alias: {
       '@lib': path.resolve(__dirname, 'lib'),
-      '@plumber-commands': path.resolve(__dirname, 'plumber-commands'),
-      '@commands': path.resolve(__dirname, 'commands'),
+      '@fh0-plumber': path.resolve(__dirname, 'fh0-plumber'),
+      '@fh0': path.resolve(__dirname, 'commands'),
     },
     extensions: ['.ts', '.js'],
   },
