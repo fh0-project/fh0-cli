@@ -30,7 +30,7 @@
     "chalk": "^3.0.0",
     "cli-table3": "^0.6.2",
     "commander": "^9.3.0",
-    "g-exception": "^0.0.4",
+    "g-exception": "^0.0.7",
     "handlebars": "^4.7.7",
     "inquirer": "7.3.3",
     "jsonrpc-lite": "^2.2.0",
