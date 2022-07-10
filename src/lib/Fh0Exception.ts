@@ -1,22 +1,22 @@
-import { GError, GErrorConstructorArguments } from '@lib/GError';
+import { GException, GExceptionConstructorArguments } from 'g-exception';
 
 const RETCODE_KEY = 'retCode';
 
 type Fh0ErrorRetCodeArgument = number;
 
 type Fh0ErrorConstructorFirstArgument =
-  | GErrorConstructorArguments[0]
+  | GExceptionConstructorArguments[0]
   | Fh0ErrorRetCodeArgument;
 
 type Fh0ErrorConstructorSecondArgument =
-  | GErrorConstructorArguments[1]
-  | GErrorConstructorArguments[0];
+  | GExceptionConstructorArguments[1]
+  | GExceptionConstructorArguments[0];
 
 type Fh0ErrorConstructorThirdArgument =
-  | GErrorConstructorArguments[2]
-  | GErrorConstructorArguments[1];
+  | GExceptionConstructorArguments[2]
+  | GExceptionConstructorArguments[1];
 
-type Fh0ErrorConstructorNthArgument = GErrorConstructorArguments[2];
+type Fh0ErrorConstructorNthArgument = GExceptionConstructorArguments[2];
 
 export type Fh0ErrorConstructorArguments = [
   Fh0ErrorConstructorFirstArgument,
@@ -27,19 +27,19 @@ export type Fh0ErrorConstructorArguments = [
 
 function parseToGErrorConstructorArguments(
   args: Fh0ErrorConstructorArguments,
-): { gErrorArgs: GErrorConstructorArguments; retCode?: number } {
+): { gErrorArgs: GExceptionConstructorArguments; retCode?: number } {
   const [firstArg, ...restArgs] = args;
   if (typeof firstArg === 'number') {
     return {
-      gErrorArgs: restArgs as GErrorConstructorArguments,
+      gErrorArgs: restArgs as GExceptionConstructorArguments,
       retCode: firstArg,
     };
   } else {
-    return { gErrorArgs: args as GErrorConstructorArguments };
+    return { gErrorArgs: args as GExceptionConstructorArguments };
   }
 }
 
-export class Fh0Error extends GError {
+export class Fh0Exception extends GException {
   static RETCODE_KEY = RETCODE_KEY;
 
   constructor(...args: Fh0ErrorConstructorArguments) {
@@ -53,10 +53,10 @@ export class Fh0Error extends GError {
   }
 
   setRetCode(retCode: number): this {
-    return this.setExtensionProp(Fh0Error.RETCODE_KEY, retCode);
+    return this.setExtensionProp(Fh0Exception.RETCODE_KEY, retCode);
   }
 
   getRetCode(): number {
-    return this.getExtensionProp(Fh0Error.RETCODE_KEY) as number;
+    return this.getExtensionProp(Fh0Exception.RETCODE_KEY) as number;
   }
 }

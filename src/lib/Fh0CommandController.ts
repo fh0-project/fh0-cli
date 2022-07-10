@@ -6,9 +6,9 @@ import type {
 } from '@lib/Fh0CommandHandler';
 import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import type { Fh0CommandHandler } from '@lib/Fh0CommandHandler';
-import { GError } from '@lib/GError';
 import { Fh0LeafNode } from '@lib/Fh0LeafNode';
 import { jsonStringifySafe } from '@lib/utils/json-stringify-safe';
+import { Fh0Exception } from '@lib/Fh0Exception';
 
 export interface Fh0CommandControllerResult {
   handlerResults: (Fh0CommandHandlerResult | void)[];
@@ -52,7 +52,7 @@ export abstract class Fh0CommandController<
   ): Promise<Fh0CommandHandlerResult | void> {
     const handler = await this.getHandler(name);
     if (handler === undefined) {
-      throw new GError(`Fh0CommandController::No handler by ${name}`);
+      throw new Fh0Exception(`Fh0CommandController::No handler by ${name}`);
     }
     return handler.run(input);
   }
