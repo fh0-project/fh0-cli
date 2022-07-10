@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 "use strict";
-require('../dist/fh0.js')
+require('../dist/fh0/fh0-cli.js')

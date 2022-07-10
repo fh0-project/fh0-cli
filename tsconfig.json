@@ -1,8 +1,8 @@
 {
   "extends": "@tsconfig/node16-strictest/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
-    "module": "ES2022",
+    "baseUrl": "./src",
+    "outDir": "./dist",
     "paths": {
       "@lib/*": [
         "lib/*"
@@ -16,9 +16,7 @@
     }
   },
   "include": [
-    "lib",
-    "fh0",
-    "fh0-plumber"
+    "src"
   ],
   "exclude": [
     "node_modules",
