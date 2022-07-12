@@ -1,14 +1,11 @@
 import type { Fh0Program } from '@lib/Fh0Program';
 import type { Command } from 'commander';
-import type {
-  Fh0CommandHandlerInput,
-  Fh0CommandHandlerResult,
-} from '@lib/Fh0CommandHandler';
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
+import type { Fh0CommandHandlerResult } from '@lib/Fh0CommandHandler';
 import type { Fh0CommandHandler } from '@lib/Fh0CommandHandler';
 import { Fh0LeafNode } from '@lib/Fh0LeafNode';
 import { jsonStringifySafe } from '@lib/utils/json-stringify-safe';
 import { Fh0Exception } from '@lib/Fh0Exception';
+import type { Fh0DefaultCommandConfig } from '@lib/types';
 
 export interface Fh0CommandControllerResult {
   handlerResults: (Fh0CommandHandlerResult | void)[];
@@ -16,21 +13,24 @@ export interface Fh0CommandControllerResult {
 
 type Fh0CommandControllerHandlersConfig<
   HandlerName extends string,
-  HandlerInput extends Record<HandlerName, Fh0CommandHandlerInput>,
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
+  HandlerInput extends Record<HandlerName, unknown>,
+  Config = Fh0DefaultCommandConfig,
 > = Record<
   HandlerName,
-  (config?: Config) => Promise<Fh0CommandHandler<HandlerInput[HandlerName]>>
+  (config: Config) => Promise<Fh0CommandHandler<HandlerInput[HandlerName]>>
 >;
 
 export abstract class Fh0CommandController<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
-  Options extends Record<string, unknown> = Record<string, unknown>,
-  Arguments extends string[] = string[],
+  Config = Fh0DefaultCommandConfig,
+  Arguments extends string[] = [],
+  OptionName extends string = never,
+  Options extends Record<OptionName, unknown> = never,
   HandlerName extends string = never,
-  HandlerInput extends Record<HandlerName, Fh0CommandHandlerInput> = never,
+  HandlerInput extends Record<HandlerName, unknown> = never,
 > extends Fh0LeafNode<Config> {
-  constructor(config?: Config) {
+  static readonly DEFAULT_HANDLER_NAME = `Fh0CommandController:DEFAULT_HANDLER`;
+
+  constructor(config: Config) {
     super(config);
   }
 

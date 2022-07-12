@@ -5,36 +5,39 @@ import {
 import type { Command } from 'commander';
 import { commaSeparatedList } from '@lib/utils/option-parsers';
 import { LicensePermission } from '@fh0/commands/check-licenses-v0/check-licenses-v0.types';
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import type { CheckLicensesV0CommandHandlerInput } from '@fh0/commands/check-licenses-v0/check-licenses-v0.handler';
+import type { Fh0DefaultCommandConfig } from '@lib/types';
 
-enum OptName {
+enum OptionName {
   ASSERT_HAS_PERMISSIONS = 'assert-has-permissions',
 }
 
-interface Options extends Record<string, unknown> {
-  [OptName.ASSERT_HAS_PERMISSIONS]: LicensePermission[];
+interface Options {
+  [OptionName.ASSERT_HAS_PERMISSIONS]: LicensePermission[];
 }
 
-const DEFAULT_HANDLER_NAME = 'default';
+type Arguments = [];
 
-export class CheckLicensesV0Controller<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
-> extends Fh0CommandController<
-  Config,
+export class CheckLicensesV0Controller extends Fh0CommandController<
+  Fh0DefaultCommandConfig,
+  Arguments,
+  OptionName,
   Options,
-  [],
-  typeof DEFAULT_HANDLER_NAME,
-  { [DEFAULT_HANDLER_NAME]: CheckLicensesV0CommandHandlerInput }
+  typeof Fh0CommandController.DEFAULT_HANDLER_NAME,
+  {
+    [Fh0CommandController.DEFAULT_HANDLER_NAME]: CheckLicensesV0CommandHandlerInput;
+  }
 > {
   path: [string] = ['check-licenses-v0'];
 
   override handlers = {
-    [DEFAULT_HANDLER_NAME]: async function defaultHandler(config?: Config) {
+    [Fh0CommandController.DEFAULT_HANDLER_NAME]: async function defaultHandler(
+      _controllerConfig: Fh0DefaultCommandConfig,
+    ) {
       const { CheckLicensesV0Handler } = await import(
         '@fh0/commands/check-licenses-v0/check-licenses-v0.handler'
       );
-      return new CheckLicensesV0Handler(config);
+      return new CheckLicensesV0Handler({});
     },
   };
 
@@ -42,10 +45,13 @@ export class CheckLicensesV0Controller<
     _command: Command,
     options: Options,
   ): Promise<Fh0CommandControllerResult> {
-    const assertHasPermissions = options[OptName.ASSERT_HAS_PERMISSIONS];
-    const result = await this.runHandler(DEFAULT_HANDLER_NAME, {
-      assertHasPermissions,
-    });
+    const assertHasPermissions = options[OptionName.ASSERT_HAS_PERMISSIONS];
+    const result = await this.runHandler(
+      Fh0CommandController.DEFAULT_HANDLER_NAME,
+      {
+        assertHasPermissions,
+      },
+    );
     return {
       handlerResults: [result],
     };
@@ -53,7 +59,7 @@ export class CheckLicensesV0Controller<
 
   protected define(program: Command): Command {
     return program.option(
-      `--${OptName.ASSERT_HAS_PERMISSIONS} <permissions>`,
+      `--${OptionName.ASSERT_HAS_PERMISSIONS} <permissions>`,
       [
         `Comma separated list.`,
         `Values: ${Object.values(LicensePermission).join(', ')}`,

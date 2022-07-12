@@ -1,23 +1,22 @@
 import { Fh0Configurable } from '@lib/Fh0Configurable';
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import type { Fh0CommandsModule } from '@lib/Fh0CommandsModule';
 import type {
-  Fh0CommandOptionalPath,
   Fh0CommandRequiredPath,
+  Fh0DefaultCommandConfig,
 } from '@lib/types';
 
 export abstract class Fh0LeafNode<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
-  Path extends Fh0CommandOptionalPath = Fh0CommandRequiredPath,
+  Config = Fh0DefaultCommandConfig,
+  Path extends Array<unknown> = Fh0CommandRequiredPath,
 > extends Fh0Configurable<Config> {
-  protected parentModule?: Fh0CommandsModule;
+  protected parentModule?: Fh0CommandsModule<Config>;
 
-  public setParentModule(parentModule: Fh0CommandsModule): this {
+  public setParentModule(parentModule: Fh0CommandsModule<Config>): this {
     this.parentModule = parentModule;
     return this;
   }
 
-  public getParentModule(): Fh0CommandsModule | undefined {
+  public getParentModule(): Fh0CommandsModule<Config> | undefined {
     return this.parentModule;
   }
 
@@ -36,6 +35,6 @@ export abstract class Fh0LeafNode<
     return [
       ...(this.parentModule?.getFullPath() || []),
       ...this.getOwnPath(),
-    ] as Path;
+    ] as unknown as Path;
   }
 }

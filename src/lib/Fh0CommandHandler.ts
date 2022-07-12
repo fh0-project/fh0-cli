@@ -1,5 +1,5 @@
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import { Fh0Configurable } from '@lib/Fh0Configurable';
+import type { Fh0DefaultCommandConfig } from '@lib/types';
 
 export enum Fh0CommandHandlerResultOutputFormat {
   LINES = 'LINES',
@@ -19,13 +19,11 @@ export interface Fh0CommandHandlerResult {
   output?: Fh0CommandHandlerResultOutput;
 }
 
-export type Fh0CommandHandlerInput = Record<string, unknown>;
-
 export abstract class Fh0CommandHandler<
-  Input extends Fh0CommandHandlerInput,
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
+  Input = never,
+  Config = Fh0DefaultCommandConfig,
 > extends Fh0Configurable<Config> {
-  constructor(config?: Config) {
+  constructor(config: Config) {
     super(config);
   }
 

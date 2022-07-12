@@ -3,5 +3,5 @@ import { CheckLicensesV0Controller } from '@fh0/commands/check-licenses-v0/check
 
 export class V0Module extends Fh0CommandsModule {
   path = ['v0'];
-  override controllers = [new CheckLicensesV0Controller()];
+  override controllers = [new CheckLicensesV0Controller({})];
 }

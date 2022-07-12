@@ -1,16 +1,10 @@
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
+import type { Fh0DefaultCommandConfig } from '@lib/types';
 
-export abstract class Fh0Configurable<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
-> {
-  protected config?: Config;
+export abstract class Fh0Configurable<Config = Fh0DefaultCommandConfig> {
+  protected config: Config;
 
-  public setOwnConfig(config?: Config): this {
-    if (config !== undefined) {
-      this.config = config;
-    } else {
-      delete this.config;
-    }
+  public setOwnConfig(config: Config): this {
+    this.config = config;
     return this;
   }
 
@@ -23,7 +17,7 @@ export abstract class Fh0Configurable<
     return this;
   }
 
-  constructor(config?: Config) {
-    this.setOwnConfig(config);
+  constructor(config: Config) {
+    this.config = config;
   }
 }

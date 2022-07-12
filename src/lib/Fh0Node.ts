@@ -1,12 +1,14 @@
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import { Fh0LeafNode } from '@lib/Fh0LeafNode';
-import type { Fh0CommandOptionalPath } from '@lib/types';
+import type {
+  Fh0CommandOptionalPath,
+  Fh0DefaultCommandConfig,
+} from '@lib/types';
 
 export abstract class Fh0Node<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
+  Config = Fh0DefaultCommandConfig,
 > extends Fh0LeafNode<Config, Fh0CommandOptionalPath> {
   public abstract getOwnChildren(): Fh0LeafNode<
-    Config,
+    Partial<Config>,
     Fh0CommandOptionalPath
   >[];
 
@@ -22,7 +24,7 @@ export abstract class Fh0Node<
     return this;
   }
 
-  constructor(config?: Config) {
+  constructor(config: Config) {
     super(config);
   }
 }

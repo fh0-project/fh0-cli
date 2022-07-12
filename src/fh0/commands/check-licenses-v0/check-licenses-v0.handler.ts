@@ -1,20 +1,15 @@
 import {
   Fh0CommandHandler,
-  Fh0CommandHandlerInput,
   Fh0CommandHandlerResult,
 } from '@lib/Fh0CommandHandler';
 import type { LicensePermission } from '@fh0/commands/check-licenses-v0/check-licenses-v0.types';
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import { Fh0Exception } from '@lib/Fh0Exception';
 
-export interface CheckLicensesV0CommandHandlerInput
-  extends Fh0CommandHandlerInput {
+export interface CheckLicensesV0CommandHandlerInput {
   assertHasPermissions?: LicensePermission[];
 }
 
-export class CheckLicensesV0Handler<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
-> extends Fh0CommandHandler<CheckLicensesV0CommandHandlerInput, Config> {
+export class CheckLicensesV0Handler extends Fh0CommandHandler<CheckLicensesV0CommandHandlerInput> {
   async run(
     _input: CheckLicensesV0CommandHandlerInput,
   ): Promise<Fh0CommandHandlerResult> {

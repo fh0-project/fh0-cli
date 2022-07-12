@@ -3,32 +3,32 @@ import * as jsonrpc from 'jsonrpc-lite';
 import { toArray } from '@lib/utils/to-array';
 import type { Command } from 'commander';
 import { Fh0Plumber } from '@lib/Fh0Plumber';
-import type { Fh0CommandConfig } from '@lib/Fh0CommandConfig';
 import { Fh0Exception } from '@lib/Fh0Exception';
+import type { Fh0DefaultCommandConfig } from '@lib/types';
 
-enum OptName {
+enum OptionName {
   JSON = 'json',
 }
 
-interface Options extends Record<string, string> {
-  [OptName.JSON]: string;
+interface Options {
+  [OptionName.JSON]: string;
 }
 
 export class RequestController<
-  Config extends Fh0CommandConfig = Fh0CommandConfig,
-> extends Fh0CommandController<Config, Options, []> {
+  Config = Fh0DefaultCommandConfig,
+> extends Fh0CommandController<Config, [], OptionName, Options> {
   path: [string] = ['request'];
 
   protected define(program: Command): Command {
     return program.requiredOption(
-      `--${OptName.JSON} <request-json>`,
+      `--${OptionName.JSON} <request-json>`,
       'JSON RPC Request object',
     );
   }
 
   protected async run(_command: Command, options: Options): Promise<void> {
     try {
-      const rpcJson = options[OptName.JSON];
+      const rpcJson = options[OptionName.JSON];
       const plumber = new Fh0Plumber();
       let requests;
       try {
