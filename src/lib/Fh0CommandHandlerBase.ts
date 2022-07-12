@@ -19,7 +19,7 @@ export interface Fh0CommandHandlerResult {
   output?: Fh0CommandHandlerResultOutput;
 }
 
-export abstract class Fh0CommandHandler<
+export abstract class Fh0CommandHandlerBase<
   Input = never,
   Config = Fh0DefaultCommandConfig,
 > extends Fh0Configurable<Config> {

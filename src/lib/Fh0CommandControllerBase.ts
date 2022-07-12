@@ -1,7 +1,6 @@
-import type { Fh0Program } from '@lib/Fh0Program';
 import type { Command } from 'commander';
-import type { Fh0CommandHandlerResult } from '@lib/Fh0CommandHandler';
-import type { Fh0CommandHandler } from '@lib/Fh0CommandHandler';
+import type { Fh0CommandHandlerResult } from '@lib/Fh0CommandHandlerBase';
+import type { Fh0CommandHandlerBase } from '@lib/Fh0CommandHandlerBase';
 import { Fh0LeafNode } from '@lib/Fh0LeafNode';
 import { jsonStringifySafe } from '@lib/utils/json-stringify-safe';
 import { Fh0Exception } from '@lib/Fh0Exception';
@@ -11,22 +10,32 @@ export interface Fh0CommandControllerResult {
   handlerResults: (Fh0CommandHandlerResult | void)[];
 }
 
-type Fh0CommandControllerHandlersConfig<
-  HandlerName extends string,
-  HandlerInput extends Record<HandlerName, unknown>,
+export type Fh0CommandControllerHandlerFactory<HandlerInput, Config> = (
+  config: Config,
+) => Promise<Fh0CommandHandlerBase<HandlerInput[keyof HandlerInput]>>;
+
+export type Fh0CommandControllerHandlersConfig<
+  HandlerInput extends Record<string, unknown>,
   Config = Fh0DefaultCommandConfig,
 > = Record<
-  HandlerName,
-  (config: Config) => Promise<Fh0CommandHandler<HandlerInput[HandlerName]>>
+  keyof HandlerInput,
+  Fh0CommandControllerHandlerFactory<HandlerInput, Config>
 >;
 
-export abstract class Fh0CommandController<
+export interface Fh0CommandControllerRunInput<
+  Arguments extends string[] = [],
+  Options extends Record<string, unknown> = never,
+> {
+  command: Command;
+  options: Options;
+  args: Arguments;
+}
+
+export abstract class Fh0CommandControllerBase<
   Config = Fh0DefaultCommandConfig,
   Arguments extends string[] = [],
-  OptionName extends string = never,
-  Options extends Record<OptionName, unknown> = never,
-  HandlerName extends string = never,
-  HandlerInput extends Record<HandlerName, unknown> = never,
+  Options extends Record<string, unknown> = never,
+  HandlerInput extends Record<string, unknown> = never,
 > extends Fh0LeafNode<Config> {
   static readonly DEFAULT_HANDLER_NAME = `Fh0CommandController:DEFAULT_HANDLER`;
 
@@ -34,25 +43,28 @@ export abstract class Fh0CommandController<
     super(config);
   }
 
-  protected handlers?: Fh0CommandControllerHandlersConfig<
-    HandlerName,
+  protected abstract handlers: Fh0CommandControllerHandlersConfig<
     HandlerInput,
     Config
   >;
 
   protected async getHandler(
-    name: HandlerName,
-  ): Promise<Fh0CommandHandler<HandlerInput[HandlerName]> | undefined> {
+    name: keyof HandlerInput,
+  ): Promise<
+    Fh0CommandHandlerBase<HandlerInput[keyof HandlerInput], unknown> | undefined
+  > {
     return await this.handlers?.[name](this.config);
   }
 
   protected async runHandler(
-    name: HandlerName,
-    input: HandlerInput[HandlerName],
+    name: keyof HandlerInput,
+    input: HandlerInput[keyof HandlerInput],
   ): Promise<Fh0CommandHandlerResult | void> {
     const handler = await this.getHandler(name);
     if (handler === undefined) {
-      throw new Fh0Exception(`Fh0CommandController::No handler by ${name}`);
+      throw new Fh0Exception(
+        `Fh0CommandController::No handler by ${String(name)}`,
+      );
     }
     return handler.run(input);
   }
@@ -60,14 +72,12 @@ export abstract class Fh0CommandController<
   protected abstract define(program: Command): Command;
 
   protected abstract run(
-    command: Command,
-    options: Options,
-    ...args: Arguments
+    runInput: Fh0CommandControllerRunInput<Arguments, Options>,
   ): Promise<Fh0CommandControllerResult | void>;
 
-  public load(program: Fh0Program): Command {
+  public load(program: Command): Command {
     let p: Command = program;
-    this.getFullPath().forEach((pSegment) => {
+    this.getOwnPath().forEach((pSegment) => {
       p = p.command(pSegment);
     });
     p = this.define(p);
@@ -76,10 +86,13 @@ export abstract class Fh0CommandController<
         const cliArgs = args.length <= 2 ? [] : args.slice(0, args.length - 2);
         const optionsArg = args[args.length - 2];
         const commandArg = args[args.length - 1];
-        const reorderedArgs = [commandArg, optionsArg, ...cliArgs];
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const result = await this.run(...reorderedArgs);
+        const result = await this.run({
+          command: commandArg as Command,
+          options: optionsArg as Options,
+          args: cliArgs as Arguments,
+        });
         console.log('result', jsonStringifySafe(result));
       } catch (err) {
         console.log(err);

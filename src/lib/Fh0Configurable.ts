@@ -8,6 +8,8 @@ export abstract class Fh0Configurable<Config = Fh0DefaultCommandConfig> {
     return this;
   }
 
+  public abstract init(): void;
+
   public addConfig(config: Config): this {
     if (this.config === undefined) {
       this.config = config;
@@ -15,6 +17,15 @@ export abstract class Fh0Configurable<Config = Fh0DefaultCommandConfig> {
       Object.assign(this.config, config);
     }
     return this;
+  }
+
+  public static create<Config, T extends Fh0Configurable<Config>>(
+    ConfigurableClass: { new (config: Config): T },
+    config: Config,
+  ): T {
+    const self = new ConfigurableClass(config);
+    self.init();
+    return self;
   }
 
   constructor(config: Config) {

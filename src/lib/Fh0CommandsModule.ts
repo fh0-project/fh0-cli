@@ -1,16 +1,23 @@
-import type { Fh0CommandController } from '@lib/Fh0CommandController';
-import type { Fh0Program } from '@lib/Fh0Program';
+import type { Fh0CommandControllerBase } from '@lib/Fh0CommandControllerBase';
 import { Fh0Node } from '@lib/Fh0Node';
 import type { Fh0LeafNode } from '@lib/Fh0LeafNode';
 import type {
   Fh0CommandOptionalPath,
   Fh0DefaultCommandConfig,
 } from '@lib/types';
+import type { Command } from 'commander';
 
 export abstract class Fh0CommandsModule<
   Config = Fh0DefaultCommandConfig,
 > extends Fh0Node<Config> {
-  protected controllers?: Fh0CommandController<Partial<Config>>[] | undefined;
+  protected controllers?:
+    | Fh0CommandControllerBase<
+        Partial<Config>,
+        string[],
+        Record<string, unknown>,
+        Record<string, unknown>
+      >[]
+    | undefined;
 
   public getOwnControllers() {
     return this.controllers === undefined ? [] : this.controllers;
@@ -51,18 +58,13 @@ export abstract class Fh0CommandsModule<
     return this;
   }
 
-  load(program: Fh0Program): void {
-    this.getAllControllers().forEach((c) => {
-      c.load(program);
+  load(program: Command): void {
+    let p: Command = program;
+    this.getOwnPath().forEach((pSegment) => {
+      p = p.command(pSegment);
     });
-  }
-
-  static create<
-    Config = Fh0DefaultCommandConfig,
-    T extends Fh0CommandsModule<Config> = Fh0CommandsModule<Config>,
-  >(ModuleClass: { new (config: Config): T }, config: Config): T {
-    const self = new ModuleClass(config);
-    self.init();
-    return self;
+    this.getAllControllers().forEach((c) => {
+      c.load(p);
+    });
   }
 }
