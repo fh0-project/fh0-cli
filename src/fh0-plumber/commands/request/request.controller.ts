@@ -6,8 +6,8 @@ import * as jsonrpc from 'jsonrpc-lite';
 import { toArray } from '@lib/utils/to-array';
 import type { Command } from 'commander';
 import { Fh0Plumber } from '@lib/Fh0Plumber';
-import { Fh0Exception } from '@lib/Fh0Exception';
 import type { Fh0DefaultCommandConfig } from '@lib/types';
+import { GException } from 'g-exception';
 
 enum OptionName {
   JSON = 'json',
@@ -45,7 +45,7 @@ export class RequestController<
       try {
         requests = toArray(jsonrpc.jsonrpc.parse(rpcJson));
       } catch (err) {
-        throw new Fh0Exception(err, 'Error parsing JSON RPC request');
+        throw new GException(err, 'Error parsing JSON RPC request');
       }
       return await plumber.jsonRpc(requests);
     } catch (err) {

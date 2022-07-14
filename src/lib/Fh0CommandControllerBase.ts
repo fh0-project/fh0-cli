@@ -3,8 +3,8 @@ import type { Fh0CommandHandlerResult } from '@lib/Fh0CommandHandlerBase';
 import type { Fh0CommandHandlerBase } from '@lib/Fh0CommandHandlerBase';
 import { Fh0LeafNode } from '@lib/Fh0LeafNode';
 import { jsonStringifySafe } from '@lib/utils/json-stringify-safe';
-import { Fh0Exception } from '@lib/Fh0Exception';
 import type { Fh0DefaultCommandConfig } from '@lib/types';
+import { GException } from 'g-exception';
 
 export interface Fh0CommandControllerResult {
   handlerResults: (Fh0CommandHandlerResult | void)[];
@@ -62,7 +62,7 @@ export abstract class Fh0CommandControllerBase<
   ): Promise<Fh0CommandHandlerResult | void> {
     const handler = await this.getHandler(name);
     if (handler === undefined) {
-      throw new Fh0Exception(
+      throw new GException(
         `Fh0CommandController::No handler by ${String(name)}`,
       );
     }
